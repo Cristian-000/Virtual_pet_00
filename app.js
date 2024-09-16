@@ -58,13 +58,13 @@ function updateStatus() {
 
     // Estado de salud basado en los niveles
     if (hunger >= 90 || happiness <= 10 || energy <= 10 || hygiene <= 10) {
-        statusEl.innerText = 'Critical';
+        statusEl.innerText = 'Critico';
         checkIfDead();
     } else if (!alive) {
-        statusEl.innerText = 'Dead';
+        statusEl.innerText = 'Muerto';
         toggleButtons(false);
     } else {
-        statusEl.innerText = 'Healthy';
+        statusEl.innerText = 'Saludable';
     }
 }
 
@@ -72,7 +72,7 @@ function updateStatus() {
 function feed() {
     if (actionCooldown) return;
     actionCooldown = true;
-    action = 'Eating';
+    action = 'Comiendo..';
     updateAction();
 
     hunger = Math.max(0, hunger - 30);
@@ -82,7 +82,7 @@ function feed() {
     setTimeout(() => {
         updateStatus();
         actionCooldown = false;
-        action = 'Idle';
+        action = 'Parado';
         updateAction();
         toggleButtons(true);
     }, 3000);
@@ -91,7 +91,7 @@ function feed() {
 function play() {
     if (actionCooldown) return;
     actionCooldown = true;
-    action = 'Playing';
+    action = 'Jugando..';
     updateAction();
 
     happiness = Math.min(100, happiness + 30);
@@ -102,7 +102,7 @@ function play() {
     setTimeout(() => {
         updateStatus();
         actionCooldown = false;
-        action = 'Idle';
+        action = 'Parado';
         updateAction();
         toggleButtons(true);
     }, 3000);
@@ -111,18 +111,18 @@ function play() {
 function sleep() {
     if (actionCooldown) return;
     actionCooldown = true;
-    action = 'Sleeping';
+    action = 'Durmiendo..;
     updateAction();
 
     toggleButtons(false);
 
     energy = Math.min(100, energy + 30);
     hygiene = Math.min(100, hygiene - 10); 
-    hunger = Math.max(100, hunger + 5);
+    hunger = Math.min(100, hunger + 5);
 
     setTimeout(() => {
         updateStatus();
-        action = 'Awake';
+        action = 'Despierto';
         updateAction();
         actionCooldown = false;
         toggleButtons(true);
@@ -132,7 +132,7 @@ function sleep() {
 function clean() {
     if (actionCooldown) return;
     actionCooldown = true;
-    action = 'Cleaning';
+    action = 'Higienizandose..';
     updateAction();
 
     hygiene = Math.min(100, hygiene + 30);
@@ -142,7 +142,7 @@ function clean() {
     setTimeout(() => {
         updateStatus();
         actionCooldown = false;
-        action = 'Idle';
+        action = 'Parado';
         updateAction();
         toggleButtons(true);
     }, 3000);
@@ -156,7 +156,7 @@ function updateAction() {
 function checkIfDead() {
     if (hunger >= 100 || happiness <= 0 || energy <= 0 || hygiene <= 0) {
         alive = false;
-        statusEl.innerText = 'Dead';
+        statusEl.innerText = 'Muerto';
         action = 'Dead';
         updateAction();
         toggleButtons(false);
