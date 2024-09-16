@@ -27,10 +27,16 @@ function toggleButtons(state) {
 }
 
 // Función para actualizar el estado del Tamagotchi y la barra de salud
+// Función para actualizar la barra de salud
 function updateHealthBar() {
-    const averageHealth = (hunger + happiness + energy + hygiene) / 4;
+    // Normalizamos los valores para que 100 sea lo ideal en todos los casos
+    const normalizedHunger = 100 - hunger;  // 0 hambre es ideal, 100 es crítico
+    const averageHealth = (normalizedHunger + happiness + energy + hygiene) / 4;
+
+    // Actualizamos la barra de salud con el promedio de los valores normalizados
     healthBarFill.style.width = `${averageHealth}%`;
 
+    // Cambiamos el color de la barra según el estado de salud general
     if (averageHealth > 60) {
         healthBarFill.style.backgroundColor = 'green';
     } else if (averageHealth > 30) {
