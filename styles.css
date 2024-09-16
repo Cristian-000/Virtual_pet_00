@@ -32,3 +32,8 @@ body {
 .tamagotchi-actions button:hover {
     background-color: #45a049;
 }
+/* Agregamos algunos estilos adicionales para el estado del Tamagotchi */
+.tamagotchi-status p {
+    margin: 10px 0;
+    font-size: 18px;
+}
