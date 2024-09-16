@@ -32,8 +32,30 @@ body {
 .tamagotchi-actions button:hover {
     background-color: #45a049;
 }
-/* Agregamos algunos estilos adicionales para el estado del Tamagotchi */
+/* Estilos para la barra de salud */
+.health-bar {
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 25px;
+    margin: 10px 0;
+    height: 20px;
+}
+
+#health-bar-fill {
+    height: 100%;
+    width: 100%;
+    background-color: green;
+    border-radius: 25px;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* Otros estilos */
 .tamagotchi-status p {
     margin: 10px 0;
     font-size: 18px;
+}
+
+#action {
+    font-weight: bold;
+    color: #555;
 }
