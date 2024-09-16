@@ -26,17 +26,13 @@ function toggleButtons(state) {
     });
 }
 
-// Función para actualizar el estado del Tamagotchi y la barra de salud
 // Función para actualizar la barra de salud
 function updateHealthBar() {
-    // Normalizamos los valores para que 100 sea lo ideal en todos los casos
-    const normalizedHunger = 100 - hunger;  // 0 hambre es ideal, 100 es crítico
+    const normalizedHunger = 100 - hunger; // 0 hambre es ideal, 100 es crítico
     const averageHealth = (normalizedHunger + happiness + energy + hygiene) / 4;
 
-    // Actualizamos la barra de salud con el promedio de los valores normalizados
     healthBarFill.style.width = `${averageHealth}%`;
 
-    // Cambiamos el color de la barra según el estado de salud general
     if (averageHealth > 60) {
         healthBarFill.style.backgroundColor = 'green';
     } else if (averageHealth > 30) {
@@ -56,9 +52,8 @@ function updateStatus() {
 
     updateHealthBar();
 
-    // Estado de salud basado en los niveles
     if (hunger >= 90 || happiness <= 10 || energy <= 10 || hygiene <= 10) {
-        statusEl.innerText = 'Critico';
+        statusEl.innerText = 'Crítico';
         checkIfDead();
     } else if (!alive) {
         statusEl.innerText = 'Muerto';
@@ -72,12 +67,11 @@ function updateStatus() {
 function feed() {
     if (actionCooldown) return;
     actionCooldown = true;
-    action = 'Comiendo..';
+    action = 'Comiendo...';
     updateAction();
 
     hunger = Math.max(0, hunger - 30);
     happiness = Math.min(100, happiness + 5);
-    
 
     setTimeout(() => {
         updateStatus();
@@ -91,7 +85,7 @@ function feed() {
 function play() {
     if (actionCooldown) return;
     actionCooldown = true;
-    action = 'Jugando..';
+    action = 'Jugando...';
     updateAction();
 
     happiness = Math.min(100, happiness + 30);
@@ -111,13 +105,13 @@ function play() {
 function sleep() {
     if (actionCooldown) return;
     actionCooldown = true;
-    action = 'Durmiendo..;
+    action = 'Durmiendo...'; // Corregir las comillas faltantes
     updateAction();
 
     toggleButtons(false);
 
     energy = Math.min(100, energy + 30);
-    hygiene = Math.min(100, hygiene - 10); 
+    hygiene = Math.max(0, hygiene - 10); 
     hunger = Math.min(100, hunger + 5);
 
     setTimeout(() => {
@@ -132,7 +126,7 @@ function sleep() {
 function clean() {
     if (actionCooldown) return;
     actionCooldown = true;
-    action = 'Higienizandose..';
+    action = 'Higienizándose...';
     updateAction();
 
     hygiene = Math.min(100, hygiene + 30);
@@ -157,7 +151,7 @@ function checkIfDead() {
     if (hunger >= 100 || happiness <= 0 || energy <= 0 || hygiene <= 0) {
         alive = false;
         statusEl.innerText = 'Muerto';
-        action = 'Dead';
+        action = 'Muerto';
         updateAction();
         toggleButtons(false);
     }
