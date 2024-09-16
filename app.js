@@ -4,7 +4,7 @@ let happiness = 50;
 let energy = 50;
 let hygiene = 50;
 let age = 1;
-let status = 'Healthy';
+let action = 'Idle'; // Estado detallado
 let alive = true;
 let actionCooldown = false;
 
@@ -15,6 +15,8 @@ const energyEl = document.getElementById('energy');
 const hygieneEl = document.getElementById('hygiene');
 const ageEl = document.getElementById('age');
 const statusEl = document.getElementById('status');
+const actionEl = document.getElementById('action');
+const healthBarFill = document.getElementById('health-bar-fill');
 const buttons = document.querySelectorAll('.tamagotchi-actions button');
 
 // Función para actualizar los botones según el estado del Tamagotchi
@@ -24,66 +26,21 @@ function toggleButtons(state) {
     });
 }
 
-// Funciones para actualizar el estado del Tamagotchi
-function feed() {
-    if (actionCooldown) return;
-    actionCooldown = true;
-    hunger = Math.max(0, hunger - 10);
-    happiness = Math.min(100, happiness + 5);
-    updateStatus();
+// Función para actualizar el estado del Tamagotchi y la barra de salud
+function updateHealthBar() {
+    const averageHealth = (hunger + happiness + energy + hygiene) / 4;
+    healthBarFill.style.width = `${averageHealth}%`;
 
-    setTimeout(() => {
-        actionCooldown = false;
-        toggleButtons(true);
-    }, 3000); // 3 segundos de espera antes de poder realizar otra acción
+    if (averageHealth > 60) {
+        healthBarFill.style.backgroundColor = 'green';
+    } else if (averageHealth > 30) {
+        healthBarFill.style.backgroundColor = 'yellow';
+    } else {
+        healthBarFill.style.backgroundColor = 'red';
+    }
 }
 
-function play() {
-    if (actionCooldown) return;
-    actionCooldown = true;
-    happiness = Math.min(100, happiness + 10);
-    energy = Math.max(0, energy - 10);
-    hunger = Math.min(100, hunger + 5);
-    updateStatus();
-
-    setTimeout(() => {
-        actionCooldown = false;
-        toggleButtons(true);
-    }, 3000); // 3 segundos de espera
-}
-
-function sleep() {
-    if (actionCooldown) return;
-    actionCooldown = true;
-    toggleButtons(false); // Bloquear acciones mientras duerme
-
-    energy = Math.min(100, energy + 30);
-    hygiene = Math.min(100, hygiene - 10); // Se ensucia mientras duerme
-    updateStatus();
-
-    status = 'Sleeping...';
-    statusEl.innerText = status;
-
-    setTimeout(() => {
-        status = 'Awake';
-        statusEl.innerText = status;
-        actionCooldown = false;
-        toggleButtons(true);
-    }, 5000); // 5 segundos de espera mientras duerme
-}
-
-function clean() {
-    if (actionCooldown) return;
-    actionCooldown = true;
-    hygiene = Math.min(100, hygiene + 20);
-    updateStatus();
-
-    setTimeout(() => {
-        actionCooldown = false;
-        toggleButtons(true);
-    }, 3000); // 3 segundos de espera
-}
-
+// Función para actualizar el estado del Tamagotchi
 function updateStatus() {
     hungerEl.innerText = hunger;
     happinessEl.innerText = happiness;
@@ -91,26 +48,107 @@ function updateStatus() {
     hygieneEl.innerText = hygiene;
     ageEl.innerText = age;
 
-    // Revisión de condiciones críticas
+    updateHealthBar();
+
+    // Estado de salud basado en los niveles
     if (hunger >= 90 || happiness <= 10 || energy <= 10 || hygiene <= 10) {
-        status = 'Critical';
+        statusEl.innerText = 'Critical';
         checkIfDead();
     } else if (!alive) {
-        status = 'Dead';
+        statusEl.innerText = 'Dead';
         toggleButtons(false);
     } else {
-        status = 'Healthy';
+        statusEl.innerText = 'Healthy';
     }
+}
 
-    statusEl.innerText = status;
+// Funciones para las acciones
+function feed() {
+    if (actionCooldown) return;
+    actionCooldown = true;
+    action = 'Eating';
+    updateAction();
+
+    hunger = Math.max(0, hunger - 10);
+    happiness = Math.min(100, happiness + 5);
+    updateStatus();
+
+    setTimeout(() => {
+        actionCooldown = false;
+        action = 'Idle';
+        updateAction();
+        toggleButtons(true);
+    }, 3000);
+}
+
+function play() {
+    if (actionCooldown) return;
+    actionCooldown = true;
+    action = 'Playing';
+    updateAction();
+
+    happiness = Math.min(100, happiness + 10);
+    energy = Math.max(0, energy - 10);
+    hunger = Math.min(100, hunger + 5);
+    updateStatus();
+
+    setTimeout(() => {
+        actionCooldown = false;
+        action = 'Idle';
+        updateAction();
+        toggleButtons(true);
+    }, 3000);
+}
+
+function sleep() {
+    if (actionCooldown) return;
+    actionCooldown = true;
+    action = 'Sleeping';
+    updateAction();
+
+    toggleButtons(false);
+
+    energy = Math.min(100, energy + 30);
+    hygiene = Math.min(100, hygiene - 10); 
+    updateStatus();
+
+    setTimeout(() => {
+        action = 'Awake';
+        updateAction();
+        actionCooldown = false;
+        toggleButtons(true);
+    }, 5000);
+}
+
+function clean() {
+    if (actionCooldown) return;
+    actionCooldown = true;
+    action = 'Cleaning';
+    updateAction();
+
+    hygiene = Math.min(100, hygiene + 20);
+    updateStatus();
+
+    setTimeout(() => {
+        actionCooldown = false;
+        action = 'Idle';
+        updateAction();
+        toggleButtons(true);
+    }, 3000);
+}
+
+// Función para actualizar el estado de la acción
+function updateAction() {
+    actionEl.innerText = action;
 }
 
 function checkIfDead() {
     if (hunger >= 100 || happiness <= 0 || energy <= 0 || hygiene <= 0) {
         alive = false;
-        status = 'Dead';
-        statusEl.innerText = status;
-        toggleButtons(false); // Deshabilitar botones cuando el Tamagotchi muere
+        statusEl.innerText = 'Dead';
+        action = 'Dead';
+        updateAction();
+        toggleButtons(false);
     }
 }
 
@@ -124,14 +162,15 @@ document.getElementById('clean').addEventListener('click', clean);
 setInterval(() => {
     if (alive) {
         age += 1;
-        hunger = Math.min(100, hunger + 5);  // Se incrementa el hambre con el tiempo
-        happiness = Math.max(0, happiness - 5);  // Se reduce la felicidad con el tiempo
-        hygiene = Math.max(0, hygiene - 5);  // La higiene disminuye con el tiempo
-        energy = Math.max(0, energy - 5);  // La energía disminuye con el tiempo
+        hunger = Math.min(100, hunger + 5);  
+        happiness = Math.max(0, happiness - 5);  
+        hygiene = Math.max(0, hygiene - 5);  
+        energy = Math.max(0, energy - 5);  
         updateStatus();
     }
-}, 60000); // Cada minuto se incrementan los valores críticos
+}, 60000);
 
 // Inicializar botones y estado al inicio
 updateStatus();
 toggleButtons(true);
+updateAction();
