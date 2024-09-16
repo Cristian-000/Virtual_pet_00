@@ -1,3 +1,9 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const selectedPet = localStorage.getItem('selectedPet') || 'Mascota Desconocida';
+    document.getElementById('selectedPet').innerText = `Mascota Seleccionada: ${selectedPet}`;
+
+    // Aquí incluir la lógica del juego Tamagotchi como la que ya tienes en el archivo tamagotchi.js
+
 // Variables iniciales
 let hunger = 50;
 let happiness = 50;
@@ -179,3 +185,4 @@ setInterval(() => {
 updateStatus();
 toggleButtons(true);
 updateAction();
+});
