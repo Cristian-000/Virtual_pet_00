@@ -97,7 +97,7 @@ function play() {
     happiness = Math.min(100, happiness + 10);
     energy = Math.max(0, energy - 10);
     hunger = Math.min(100, hunger + 5);
-    
+    hygiene = Math.max(0, hygiene - 5);
 
     setTimeout(() => {
         updateStatus();
@@ -118,7 +118,7 @@ function sleep() {
 
     energy = Math.min(100, energy + 30);
     hygiene = Math.min(100, hygiene - 10); 
-    
+    hunger = Math.min(100, hunger + 5);
 
     setTimeout(() => {
         updateStatus();
