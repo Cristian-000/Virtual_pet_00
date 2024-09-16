@@ -77,9 +77,10 @@ function feed() {
 
     hunger = Math.max(0, hunger - 10);
     happiness = Math.min(100, happiness + 5);
-    updateStatus();
+    
 
     setTimeout(() => {
+        updateStatus();
         actionCooldown = false;
         action = 'Idle';
         updateAction();
@@ -96,9 +97,10 @@ function play() {
     happiness = Math.min(100, happiness + 10);
     energy = Math.max(0, energy - 10);
     hunger = Math.min(100, hunger + 5);
-    updateStatus();
+    
 
     setTimeout(() => {
+        updateStatus();
         actionCooldown = false;
         action = 'Idle';
         updateAction();
@@ -116,9 +118,10 @@ function sleep() {
 
     energy = Math.min(100, energy + 30);
     hygiene = Math.min(100, hygiene - 10); 
-    updateStatus();
+    
 
     setTimeout(() => {
+        updateStatus();
         action = 'Awake';
         updateAction();
         actionCooldown = false;
@@ -133,9 +136,10 @@ function clean() {
     updateAction();
 
     hygiene = Math.min(100, hygiene + 20);
-    updateStatus();
+    
 
     setTimeout(() => {
+        updateStatus();
         actionCooldown = false;
         action = 'Idle';
         updateAction();
