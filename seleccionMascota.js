@@ -1,21 +1,39 @@
-// seleccionMascota.js
+// Función para seleccionar una mascota y asignarle una clase al azar
+function selectPet(petType) {
+    const petName = document.getElementById('petName').value.trim();
+    if (!petName) {
+        alert("¡Por favor, escribe un nombre para tu mascota!");
+        return; // No continuar si el nombre está vacío
+    }
 
-function selectPet(petName) {
-    // Generar una variación aleatoria en las estadísticas de la mascota
-    const hungerRate = Math.random() * (1.2 - 0.8) + 0.8; // entre 0.8x y 1.2x de tasa de hambre
-    const sleepinessRate = Math.random() * (1.2 - 0.8) + 0.8; // entre 0.8x y 1.2x de tasa de sueño
-    const eatingSpeed = Math.random() * (1.2 - 0.8) + 0.8; // entre 0.8x y 1.2x de velocidad de comida
+    const classes = ['Glotona', 'Dormilona', 'Juguetona', 'Higiénica', 'Poco Hambre'];
+    const selectedClass = classes[Math.floor(Math.random() * classes.length)];
 
-    // Guardar la mascota seleccionada en localStorage
+    let classModifiers = {};
+    switch (selectedClass) {
+        case 'Glotona':
+            classModifiers = { hungerRate: 0.8, eatingSpeed: 1.5, energyModifier: 1, hygieneModifier: 1, happinessModifier: 1 };
+            break;
+        case 'Dormilona':
+            classModifiers = { hungerRate: 1, sleepinessRate: 1.5, energyModifier: 1.2, hygieneModifier: 1, happinessModifier: 1 };
+            break;
+        case 'Juguetona':
+            classModifiers = { hungerRate: 1, happinessModifier: 1.4, energyModifier: 1.3, hygieneModifier: 1, sleepinessRate: 1 };
+            break;
+        case 'Higiénica':
+            classModifiers = { hungerRate: 1, hygieneModifier: 1.5, energyModifier: 1.1, happinessModifier: 1, sleepinessRate: 1 };
+            break;
+        case 'Poco Hambre':
+            classModifiers = { hungerRate: 0.5, eatingSpeed: 1.2, energyModifier: 1, hygieneModifier: 1, happinessModifier: 1 };
+            break;
+    }
+
     const selectedPet = {
         name: petName,
-        hungerRate: hungerRate.toFixed(2),
-        sleepinessRate: sleepinessRate.toFixed(2),
-        eatingSpeed: eatingSpeed.toFixed(2)
+        class: selectedClass,
+        ...classModifiers,
     };
 
     localStorage.setItem('selectedPet', JSON.stringify(selectedPet));
-
-    // Redirigir al juego principal
     window.location.href = 'tamagotchi.html';
 }

@@ -1,91 +1,41 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f8ff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background-color: #f0e68c; /* Color de fondo vintage */
+    font-family: 'Courier New', Courier, monospace; /* Fuente retro */
+    text-align: center;
 }
 
 .container {
-    text-align: center;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-    margin-bottom: 20px;
-}
-
-.pets-selection {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-}
-
-.pet-card {
-    background-color: #e3f2fd;
-    border: 2px solid #90caf9;
+    border: 2px solid #333;
     border-radius: 10px;
     padding: 20px;
-    width: 120px;
-    text-align: center;
+    background-color: #fff;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.5);
 }
 
-.pet-icon {
-    font-size: 50px;
+.pet-display {
+    margin: 20px 0;
 }
 
-.select-pet-btn {
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: #42a5f5;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+#petImage {
+    width: 150px; /* Tamaño de la imagen de la mascota */
+    animation: bounce 1s infinite alternate; /* Animación de rebote */
 }
 
-.select-pet-btn:hover {
-    background-color: #1e88e5;
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
 }
 
-.start-btn {
+.tamagotchi-actions button {
+    margin: 5px;
     padding: 10px 20px;
-    background-color: #42a5f5;
-    color: white;
-    border: none;
+    background-color: #f9c4c4;
+    border: 2px solid #a00;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-family: 'Courier New', Courier, monospace; /* Fuente vintage */
 }
 
-.start-btn:hover {
-    background-color: #1e88e5;
-}
-
-/* Barra de salud */
-.health-bar {
-    width: 100%;
-    height: 20px;
-    background-color: #ccc;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-#health-bar-fill {
-    height: 100%;
-    width: 100%;
-    background-color: green;
-    transition: width 0.5s;
+.tamagotchi-actions button:hover {
+    background-color: #ffb3b3; /* Efecto hover */
 }
